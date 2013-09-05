@@ -11,3 +11,6 @@
 *.lai
 *.la
 *.a
+/tile_editor_SMFL/ipch
+/tile_editor_SMFL/Debug
+/tile_editor_SMFL/*.opensdf
