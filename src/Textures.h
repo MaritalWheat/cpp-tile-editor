@@ -6,6 +6,7 @@ public:
 	Textures();
 	~Textures();
 	static bool Initialize();
+	static void TakeDown();
 	void Add(std::string key, sf::Texture texture);
 	void Remove(sf::Texture);
 	void InitialLoad();

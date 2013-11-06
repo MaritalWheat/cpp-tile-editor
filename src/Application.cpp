@@ -1,14 +1,21 @@
+
+
 #include <iostream>
 #include <sstream>
 #include <SFML/Graphics.hpp>
 #include "Tile.h"
+#include "Textures.h"
+#include "Sidebar.h"
 #include "GUIComponent.h"
 #include "GUIManager.h"
 #include <vector>
 #include <stdio.h>
+#include "vld.h"
 
 int main()
 {
+	Textures::Initialize();
+
 	std::string str;
 	std::string _relativePath = "C:/Users/Emanuel/Documents/Visual Studio 2012/Projects/ConsoleApplication1/";
 	sf::String startText;
@@ -18,36 +25,6 @@ int main()
 	sf::RenderWindow window(sf::VideoMode(1024, 756), "Using sf::View", sf::Style::Close | sf::Style::Titlebar); // Create window
 	window.setFramerateLimit(60); // Set a framerate limit to reduce the CPU load
 	window.setMouseCursorVisible(false); // Hide the cursor
-
-	sf::Texture texButton;
-	texButton.loadFromFile(_relativePath + "Assets/button_normal.png");
-
-	sf::Texture texArrowRight;
-	texArrowRight.loadFromFile(_relativePath + "Assets/right_arrow.png");
-
-	sf::Texture texArrowRightHover;
-	texArrowRightHover.loadFromFile(_relativePath + "Assets/right_arrow_hover.png");
-
-	sf::Texture texArrowLeft;
-	texArrowLeft.loadFromFile(_relativePath + "Assets/left_arrow.png");
-
-	sf::Texture texArrowLeftHover;
-	texArrowLeftHover.loadFromFile(_relativePath + "Assets/left_arrow_hover.png");
-
-	sf::Texture texButtonHover;
-	texButtonHover.loadFromFile(_relativePath + "Assets/button_hover.png");
-	sf::Texture texGUIBack;
-
-	texGUIBack.loadFromFile(_relativePath + "Assets/guibox.png");
-
-	sf::Texture texGUIBackDark;
-	texGUIBackDark.loadFromFile(_relativePath + "Assets/box_dark.png");
-
-	sf::Texture texSmallBox;
-	texSmallBox.loadFromFile(_relativePath + "Assets/small_box.png");
-
-	sf::Texture texSmallBoxClicked;
-	texSmallBoxClicked.loadFromFile(_relativePath + "Assets/small_box_clicked.png");
 
 	sf::Texture texMap; // Create the world startTexture and sprite
 	texMap.setSmooth(true);
@@ -71,52 +48,34 @@ int main()
 	texHighlightTile.loadFromFile(_relativePath + "Assets/TileTest.png");
 
 	GUIManager *_gui = new GUIManager();
-	Tile *tile1 = new Tile(texTile);
-	Tile *tile2 = new Tile(texTile);
-	Tile *tile3 = new Tile(texTile);
 	Tile *testTile = new Tile(texHighlightTile);
 
-	GUIComponent *topBar = new GUIComponent(texGUIBack, GUIComponent::Type::_box);
-	GUIComponent *button1 = new GUIComponent(texGUIBackDark, GUIComponent::Type::_toggle);
-	GUIComponent *button2 = new GUIComponent(texGUIBackDark, GUIComponent::Type::_toggle);
+	GUIComponent *topBar = new GUIComponent(Textures::Get("Box"), GUIComponent::Type::_box);
 
-	topBar -> SetScale(window.getSize().x / topBar->GetWidth(), 32 / button2 -> GetHeight()); 
+	GUIComponent *button1 = new GUIComponent(Textures::Get("Box_Dark"), GUIComponent::Type::_toggle);
+
+	topBar -> SetScale(window.getSize().x / topBar->GetWidth(), 32 / button1 -> GetHeight()); 
 	button1 -> SetScale(32 * 5 / button1->GetWidth(), 32 / button1 -> GetHeight()); 
-	button2 -> SetScale(32 * 6 / button2->GetWidth(), 32 / button2 -> GetHeight()); 
 	
 	topBar -> SetPosition(0, 0);
 	button1 -> SetPosition(0, 0);
-	button2 -> SetPosition(window.getSize().x - button2->GetWidth(), 0);
+
+	Sidebar *sidebar = new Sidebar(window, topBar);
 	
 	_gui->Add("c", topBar);
-	_gui->Add("a", button2);
 	_gui->Add("b", button1);
 
-	GUIComponent *tileOptions = new GUIComponent(texGUIBack, GUIComponent::Type::_box);
+	/*GUIComponent *grassOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *waterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *dirtOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *sandOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *deepWaterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *grassOptionIcon = new GUIComponent(texGrassTile, Textures::Get("Button_h"), GUIComponent::Type::_box);
+	GUIComponent *grassCheckBox = new GUIComponent(Textures::Get("Box_Small"), Textures::Get("Box_Small"), Textures::Get("Box_Small_a"), GUIComponent::Type::_toggle);
+	*/
+	/*int offsetScalar = 1;
+	
 
-	tileOptions -> SetScale(32 * 6 / tileOptions->GetWidth(), 32 * 23 / tileOptions->GetHeight());
-	tileOptions -> SetPosition(window.getSize().x - tileOptions->GetWidth(), topBar->GetY() + topBar->GetHeight());
-
-	_gui->Add("d", tileOptions);
-	GUIComponent *optionsListRight = new GUIComponent(texArrowRight, texArrowRightHover, GUIComponent::Type::_button);
-	GUIComponent *optionsListLeft = new GUIComponent(texArrowLeft, texArrowLeftHover, GUIComponent::Type::_button);
-	GUIComponent *grassOption = new GUIComponent(texButton, texButtonHover, GUIComponent::Type::_toggle);
-	GUIComponent *waterOption = new GUIComponent(texButton, texButtonHover, GUIComponent::Type::_toggle);
-	GUIComponent *dirtOption = new GUIComponent(texButton, texButtonHover, GUIComponent::Type::_toggle);
-	GUIComponent *sandOption = new GUIComponent(texButton, texButtonHover, GUIComponent::Type::_toggle);
-	GUIComponent *deepWaterOption = new GUIComponent(texButton, texButtonHover, GUIComponent::Type::_toggle);
-	GUIComponent *grassOptionIcon = new GUIComponent(texGrassTile, texButtonHover, GUIComponent::Type::_box);
-	GUIComponent *grassCheckBox = new GUIComponent(texSmallBox, texSmallBox, texSmallBoxClicked, GUIComponent::Type::_toggle);
-
-	int offsetScalar = 1;
-	sf::Vector2f tileTypeButtonScale = sf::Vector2f(32 * 4 / grassOption->GetWidth(), 32 * 1 / grassOption->GetHeight());
-	sf::Vector2f tileTypeButtonPos = sf::Vector2f(tileOptions->GetX() + 32, tileOptions->GetY());
-
-	optionsListRight -> SetScale(32 / optionsListRight->GetWidth(), tileTypeButtonScale.y);
-	optionsListRight -> SetPosition(button2->GetX() + button2->GetWidth() - optionsListRight->GetWidth(), button2->GetY());
-
-	optionsListLeft -> SetScale(32 / optionsListLeft->GetWidth(), tileTypeButtonScale.y);
-	optionsListLeft -> SetPosition(button2->GetX(), button2->GetY());
 
 	tileTypeButtonPos.y += 32;
 	grassOption -> SetScale(tileTypeButtonScale.x, tileTypeButtonScale.y);
@@ -148,14 +107,8 @@ int main()
 	_gui->Add("i", deepWaterOption);
 	_gui->Add("j", optionsListRight);
 	_gui->Add("k", optionsListLeft);
-	_gui->Add("check", grassCheckBox);
+	_gui->Add("check", grassCheckBox);*/
 	//_gui->Add("g", grassOptionIcon);
-	
-	
-
-	tile1 -> SetPosition(map.getGlobalBounds().left, map.getGlobalBounds().top);
-	tile2 -> SetPosition(map.getGlobalBounds().left + 32, map.getGlobalBounds().top);
-	tile3 -> SetPosition(map.getGlobalBounds().left + 64, map.getGlobalBounds().top);
 
 	const int _mapWidth = (int)map.getLocalBounds().width / 32;
 	const int _mapHeight = (int)map.getLocalBounds().height / 32;
@@ -168,11 +121,9 @@ int main()
 
 	for(unsigned int i = 0; i < tileMap.size(); ++i) {
 		for (unsigned int j = 0; j < tileMap[i].size(); ++j) {
-			Tile *tmp = new Tile(texTile);
+			std::auto_ptr<Tile> tmp(new Tile(texTile));
 			tileMap[i][j] = *tmp;
 			tileMap[i][j].SetPosition(map.getGlobalBounds().left + i * 32, map.getGlobalBounds().top + j * 32);
-
-			//printf("Floats: %4.f %4.f", tileMap[i][j].GetX(), tileMap[i][j].GetY());
 		}
 	}
 
@@ -212,7 +163,14 @@ int main()
 		while(window.pollEvent(event))
 		{
 			if(event.type == sf::Event::Closed) {
+				delete sidebar;
+				delete _gui;
+				delete testTile;
+				tileMap.clear();
+				//_placedTiles._Destroy();
+				Textures::TakeDown();
 				window.close();
+				exit(0);
 		}
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A))
@@ -269,7 +227,7 @@ int main()
 			if (pos.x < window.getSize().x && pos.y < window.getSize().y) { //why the fuck does this work??
 				testTile->SetPosition(tileMap[i][j].GetX(), tileMap[i][j].GetY());
 				
-				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
+				/*if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 					++_size;
 					_placedTiles.resize(_size);
 					GUIComponent *currentlyClicked = new GUIComponent();
@@ -291,7 +249,7 @@ int main()
 							currentlyClicked = waterOption;
 						}
 					}
-				}
+				}*/
 			}
 
 			if(_gui->Contains((sf::Vector2<float>)(pos))) {
@@ -304,9 +262,6 @@ int main()
 		window.clear(); // Remove old content
 
 		window.setView(standard);
-		window.draw(tile1 -> GetSprite());
-		window.draw(tile2 -> GetSprite());
-		window.draw(tile3 -> GetSprite());
 
 
 		for(unsigned int i = 0; i < tileMap.size(); ++i) {
@@ -322,14 +277,8 @@ int main()
 
 		window.setView(fixed);
 
-		if (button1->IsClicked() && button2->GetY() + button2->GetHeight() > 0) {
-			button2->SetPosition(button2->GetX(), button2->GetY() - 5);
-		} else if (button2->GetY() < 0) {
-			button2->SetPosition(button2->GetX(), button2->GetY() + 5);
-		} else {
-			button2->SetPosition(button2->GetX(), 0);
-		}
 		_gui->DrawAll(window);
+		sidebar->Draw(window);
 
 		
 		sf::Text startText("Y: " + std::to_string((int)(button1->GetY())), _font);
@@ -345,19 +294,19 @@ int main()
 		tileOptionsLabel.setCharacterSize(button1->GetHeight() / 1.5);
 			//tileOptionsLabel.setStyle(sf::Text::Bold);
 			tileOptionsLabel.setColor(sf::Color::White);
-			tileOptionsLabel.setPosition(button2->GetX() + button2->GetWidth() / 2 - tileOptionsLabel.getLocalBounds().width / 2, 
+			tileOptionsLabel.setPosition(sidebar->_header->GetX() + sidebar->_header->GetWidth() / 2 - tileOptionsLabel.getLocalBounds().width / 2, 
 				button1->GetY() + button1->GetHeight() / 2 - tileOptionsLabel.getCharacterSize() / 2 - 3);
 			// Draw it
 			window.draw(tileOptionsLabel);
 
-		sf::Text grassLabel("Grass", _font);
+		/*sf::Text grassLabel("Grass", _font);
 		grassLabel.setCharacterSize(grassOption->GetHeight() / 1.5);
 			//tileOptionsLabel.setStyle(sf::Text::Bold);
 			grassLabel.setColor(sf::Color::White);
 			grassLabel.setPosition(grassOption->GetX() + 15, 
 				grassOption->GetY() + grassOption->GetHeight() / 2 - grassLabel.getCharacterSize() / 2 - 3);
 			// Draw it
-			window.draw(grassLabel);
+			window.draw(grassLabel);*/
 		window.draw(link);
 
 

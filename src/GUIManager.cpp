@@ -7,7 +7,7 @@ GUIManager::GUIManager()
 
 GUIManager::~GUIManager()
 {
-	std::for_each(_components.begin(),_components.end(),GameObjectDeallocator());
+	std::for_each(_components.begin(),_components.end(), GameObjectDeallocator());
 }
 
 void GUIManager::Add(std::string name, GUIComponent* gameObject)

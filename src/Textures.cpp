@@ -9,6 +9,7 @@ Textures::Textures() {
 }
 
 Textures::~Textures() {
+	_textureList.clear();
 }
 
 bool Textures::Initialize() {
@@ -18,6 +19,10 @@ bool Textures::Initialize() {
 	return _initialized;
 }
 
+void Textures::TakeDown() {
+	assert(_initialized);
+	delete _textures;
+}
 
 void Textures::Add(std::string key, sf::Texture texture) {
 	_textureList.insert(std::pair<std::string, sf::Texture>(key, texture));
