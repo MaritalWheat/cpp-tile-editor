@@ -54,13 +54,11 @@ void GUIManager::DrawAll(sf::RenderWindow& renderWindow)
 bool GUIManager::Contains(sf::Vector2<float> pos)
 {
 	bool mouseInGUI = false;
-	std::map<std::string,GUIComponent*>::const_iterator itr = _components.begin();
+	auto itr = _components.begin();
 	//float timeDelta = clock.restart().asSeconds();
-
 	while(itr != _components.end())
 	{
 		if (itr->second->GetType() == GUIComponent::Type::_button) {
-			//printf("" + (itr -> second -> IsClicked()));
 			if(itr->second->Contains(pos)) {
 				mouseInGUI = true;
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
@@ -79,7 +77,6 @@ bool GUIManager::Contains(sf::Vector2<float> pos)
 				mouseInGUI = true;
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 					itr->second->SetClicked(!itr->second->IsClicked());
-					//itr->second->SetTexture(itr->second->_clicked);
 				}
 			}
 			
@@ -89,7 +86,6 @@ bool GUIManager::Contains(sf::Vector2<float> pos)
 				itr->second->SetTexture(itr->second->_normal);
 			}
 		} else if (itr->second->GetType() == GUIComponent::Type::_box) {
-			itr->second->SetTexture(itr->second->_normal); //strange that this needs to be set, but otherwise box type gets wrong texture
 			if(itr->second->Contains(pos)) {
 				mouseInGUI = true;
 			}

@@ -12,6 +12,7 @@ public:
 	~Sidebar();
 	void Draw(sf::RenderWindow &window);
 	void InitialLoad(sf::RenderWindow &window, GUIComponent *topBar);
+	bool Contains(sf::Vector2<float> pos);
 	GUIComponent* _header; //make this private after adding text function to guicomponents 
 
 protected:

@@ -24,61 +24,47 @@ void Textures::TakeDown() {
 	delete _textures;
 }
 
-void Textures::Add(std::string key, sf::Texture texture) {
-	_textureList.insert(std::pair<std::string, sf::Texture>(key, texture));
+void Textures::Add(std::string key, const std::string filename) {
+	std::unique_ptr<sf::Texture> texture(new sf::Texture());
+    if(!texture->loadFromFile(filename))
+    {
+        throw std::runtime_error("TextureHolder::load - Failed to load " + filename);
+    }
+	auto inserted = _textureList.insert(std::make_pair(key, std::move(texture)));
+    assert(inserted.second);
 }
 
-sf::Texture Textures::Get(std::string name) {
-	std::map<std::string, sf::Texture>::const_iterator results = _textures->_textureList.find(name);
+sf::Texture& Textures::Get(std::string name) {
+	auto results = _textures->_textureList.find(name);
 	if(results == _textures->_textureList.end()) {
 #ifdef _DEBUG
 		printf("Error: texture not found!");
 #endif
-		return sf::Texture(); //handle no texture found
+		//return sf::Texture(); //handle no texture found
 	}
-	return results->second;
+	return *(results)->second;
 }
 
 //naming conventions: _a = active, _h = hover, _n = normal
 void Textures::InitialLoad() {
-	sf::Texture texButton;
-	texButton.loadFromFile(_relativePath + "Assets/button_normal.png");
-	Add("Button", texButton);
+	Add("Button", _relativePath + "Assets/button_normal.png");
 
-	sf::Texture texButtonHover;
-	texButtonHover.loadFromFile(_relativePath + "Assets/button_hover.png");
-	Add("Button_h", texButtonHover);	
+	Add("Button_h", _relativePath + "Assets/button_hover.png");	
 
-	sf::Texture texArrowRight;
-	texArrowRight.loadFromFile(_relativePath + "Assets/right_arrow.png");
-	Add("R_Arrow", texArrowRight);
+	Add("R_Arrow", _relativePath + "Assets/right_arrow.png");
 
-	sf::Texture texArrowRightHover;
-	texArrowRightHover.loadFromFile(_relativePath + "Assets/right_arrow_hover.png");
-	Add("R_Arrow_h", texArrowRightHover);
+	Add("R_Arrow_h", _relativePath + "Assets/right_arrow_hover.png");
 
-	sf::Texture texArrowLeft;
-	texArrowLeft.loadFromFile(_relativePath + "Assets/left_arrow.png");
-	Add("L_Arrow", texArrowLeft);
+	Add("L_Arrow", _relativePath + "Assets/left_arrow.png");
 
-	sf::Texture texArrowLeftHover;
-	texArrowLeftHover.loadFromFile(_relativePath + "Assets/left_arrow_hover.png");
-	Add("L_Arrow_h", texArrowLeftHover);
+	Add("L_Arrow_h", _relativePath + "Assets/left_arrow_hover.png");
 
-	sf::Texture texGUIBack;
-	texGUIBack.loadFromFile(_relativePath + "Assets/guibox.png");
-	Add("Box", texGUIBack);
+	Add("Box", _relativePath + "Assets/guibox.png");
 
-	sf::Texture texGUIBackDark;
-	texGUIBackDark.loadFromFile(_relativePath + "Assets/box_dark.png");
-	Add("Box_Dark", texGUIBackDark);
+	Add("Box_Dark", _relativePath + "Assets/box_dark.png");
 
-	sf::Texture texSmallBox;
-	texSmallBox.loadFromFile(_relativePath + "Assets/small_box.png");
-	Add("Box_Small", texSmallBox);
+	Add("Box_Small", _relativePath + "Assets/small_box.png");
 
-	sf::Texture texSmallBoxClicked;
-	texSmallBoxClicked.loadFromFile(_relativePath + "Assets/small_box_clicked.png");
-	Add("Box_Small_a", texSmallBoxClicked);
+	Add("Box_Small_a", _relativePath + "Assets/small_box_clicked.png");
 }
 

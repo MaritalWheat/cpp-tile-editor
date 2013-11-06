@@ -65,14 +65,7 @@ int main()
 	_gui->Add("c", topBar);
 	_gui->Add("b", button1);
 
-	/*GUIComponent *grassOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *waterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *dirtOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *sandOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *deepWaterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *grassOptionIcon = new GUIComponent(texGrassTile, Textures::Get("Button_h"), GUIComponent::Type::_box);
-	GUIComponent *grassCheckBox = new GUIComponent(Textures::Get("Box_Small"), Textures::Get("Box_Small"), Textures::Get("Box_Small_a"), GUIComponent::Type::_toggle);
-	*/
+	
 	/*int offsetScalar = 1;
 	
 
@@ -251,12 +244,21 @@ int main()
 					}
 				}*/
 			}
-
+			//printf("Test.\n");
+			bool mouseVis = false;
 			if(_gui->Contains((sf::Vector2<float>)(pos))) {
+				mouseVis = true;
+			}
+			if (sidebar->Contains((sf::Vector2<float>)(pos))) {
+				mouseVis = true;
+			}
+			if (mouseVis) {
 				window.setMouseCursorVisible(true);
 			} else {
 				window.setMouseCursorVisible(false);
 			}
+
+			
 		}
 
 		window.clear(); // Remove old content

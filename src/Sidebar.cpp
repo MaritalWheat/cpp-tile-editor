@@ -16,6 +16,10 @@ void Sidebar::Draw(sf::RenderWindow &window) {
 	_sidebar->DrawAll(window);
 }
 
+bool Sidebar::Contains(sf::Vector2<float> pos) {
+	return _sidebar->Contains(pos);
+}
+
 void Sidebar::InitialLoad(sf::RenderWindow &window, GUIComponent *topBar) {
 	
 	_background = new GUIComponent(Textures::Get("Box"), GUIComponent::Type::_box);
@@ -28,16 +32,28 @@ void Sidebar::InitialLoad(sf::RenderWindow &window, GUIComponent *topBar) {
 	_header->SetPosition(window.getSize().x - _header->GetWidth(), 0);
 	_sidebar->Add("Header", _header);
 
-	/*sf::Vector2f tileTypeButtonScale = sf::Vector2f(32 * 4 / _header->GetWidth(), 32 * 1 / grassOption->GetHeight());
+	_arrowRight = new GUIComponent(Textures::Get("R_Arrow"), Textures::Get("R_Arrow_h"), GUIComponent::Type::_button);
+	_arrowLeft = new GUIComponent(Textures::Get("L_Arrow"), Textures::Get("L_Arrow_h"), GUIComponent::Type::_button);
+
+	sf::Vector2f tileTypeButtonScale = sf::Vector2f(32 * 4 / _header->GetWidth(), _header->GetHeight() / _arrowLeft->GetHeight());
 	sf::Vector2f tileTypeButtonPos = sf::Vector2f(_header->GetX() + 32, _header->GetY());
 
-	GUIComponent *optionsListRight = new GUIComponent(Textures::Get("R_Arrow"), Textures::Get("R_Arrow_h"), GUIComponent::Type::_button);
-	GUIComponent *optionsListLeft = new GUIComponent(Textures::Get("L_Arrow"), Textures::Get("L_Arrow_h"), GUIComponent::Type::_button);
+	_arrowRight -> SetScale(32 / _arrowRight->GetWidth(), tileTypeButtonScale.y);
+	_arrowRight -> SetPosition(_header->GetX() + _header->GetWidth() - _arrowRight->GetWidth(), _header->GetY());
+	_sidebar->Add("Arrow_Right", _arrowRight);
 
-	optionsListRight -> SetScale(32 / optionsListRight->GetWidth(), tileTypeButtonScale.y);
-	optionsListRight -> SetPosition(button2->GetX() + button2->GetWidth() - optionsListRight->GetWidth(), button2->GetY());
+	_arrowLeft -> SetScale(32 / _arrowLeft->GetWidth(), tileTypeButtonScale.y);
+	_arrowLeft -> SetPosition(_header->GetX(), _header->GetY());
+	_sidebar->Add("Arrow_Left", _arrowLeft);
 
-	optionsListLeft -> SetScale(32 / optionsListLeft->GetWidth(), tileTypeButtonScale.y);
-	optionsListLeft -> SetPosition(button2->GetX(), button2->GetY());*/
-}
+	/*std::auto_ptr<GUIComponent> grassOption(new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle));
+	GUIComponent *waterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *dirtOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *sandOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *deepWaterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
+	GUIComponent *grassOptionIcon = new GUIComponent(texGrassTile, Textures::Get("Button_h"), GUIComponent::Type::_box);
+	GUIComponent *grassCheckBox = new GUIComponent(Textures::Get("Box_Small"), Textures::Get("Box_Small"), Textures::Get("Box_Small_a"), GUIComponent::Type::_toggle);*/
+}	
+
+	
 

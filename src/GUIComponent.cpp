@@ -4,7 +4,7 @@ GUIComponent::GUIComponent()
 {
 }
 
-GUIComponent::GUIComponent(sf::Texture& texture, GUIComponent::Type type) 
+GUIComponent::GUIComponent(sf::Texture &texture, GUIComponent::Type type) 
 {
 	_type = type;
 	_isClicked = false;
@@ -17,8 +17,8 @@ GUIComponent::GUIComponent(sf::Texture &normal, sf::Texture &hover, GUIComponent
 	_sprite = sf::Sprite(normal);
 	_type = type;
 	_isClicked = false;
-	_normal = _hover = _clicked = normal;
-	_hover = hover;
+	_normal = normal;
+	_hover = _clicked = hover;
 }
 
 GUIComponent::GUIComponent(sf::Texture &normal, sf::Texture &hover, sf::Texture &clicked, GUIComponent::Type type) 

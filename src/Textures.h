@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include <memory>
 
 class Textures {
 public:
@@ -7,13 +8,13 @@ public:
 	~Textures();
 	static bool Initialize();
 	static void TakeDown();
-	void Add(std::string key, sf::Texture texture);
+	void Add(std::string key, const std::string filename);
 	void Remove(sf::Texture);
 	void InitialLoad();
-	static sf::Texture Get(std::string name);
+	static sf::Texture& Get(std::string name);
 
 private:
-	std::map<std::string, sf::Texture> _textureList;
+	std::map<std::string, std::unique_ptr<sf::Texture>> _textureList;
 	std::string _relativePath;
 	static bool _initialized;
 	static Textures *_textures;
