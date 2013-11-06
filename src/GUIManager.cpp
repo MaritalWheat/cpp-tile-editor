@@ -32,7 +32,6 @@ GUIComponent* GUIManager::Get(std::string name) const
 	if(results == _components.end() )
 		return NULL;
 	return results->second;
-	
 }
 
 int GUIManager::GetObjectCount() const
@@ -61,7 +60,7 @@ bool GUIManager::Contains(sf::Vector2<float> pos)
 	while(itr != _components.end())
 	{
 		if (itr->second->GetType() == GUIComponent::Type::_button) {
-			printf("" + (itr -> second -> IsClicked()));
+			//printf("" + (itr -> second -> IsClicked()));
 			if(itr->second->Contains(pos)) {
 				mouseInGUI = true;
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
@@ -90,6 +89,7 @@ bool GUIManager::Contains(sf::Vector2<float> pos)
 				itr->second->SetTexture(itr->second->_normal);
 			}
 		} else if (itr->second->GetType() == GUIComponent::Type::_box) {
+			itr->second->SetTexture(itr->second->_normal); //strange that this needs to be set, but otherwise box type gets wrong texture
 			if(itr->second->Contains(pos)) {
 				mouseInGUI = true;
 			}

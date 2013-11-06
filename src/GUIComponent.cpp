@@ -6,10 +6,10 @@ GUIComponent::GUIComponent()
 
 GUIComponent::GUIComponent(sf::Texture& texture, GUIComponent::Type type) 
 {
-	_sprite = sf::Sprite(texture);
 	_type = type;
 	_isClicked = false;
 	_normal = _hover = _clicked = texture;
+	this->SetTexture(_normal);
 }
 
 GUIComponent::GUIComponent(sf::Texture &normal, sf::Texture &hover, GUIComponent::Type type) 
