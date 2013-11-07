@@ -4,12 +4,18 @@ Sidebar::Sidebar() {
 }
 
 Sidebar::Sidebar(sf::RenderWindow &window, GUIComponent *topBar) {
+	_selectedType = nullptr;
 	_sidebar = new GUIManager();
+	LoadTiles();
 	InitialLoad(window, topBar);
 }
 
 Sidebar::~Sidebar() {
 	delete _sidebar;
+	for (int i = 0; i < _tileTypes.size(); i++) {
+		delete _tileTypes[i];
+	}
+	_tileTypes.clear();
 }
 
 void Sidebar::Draw(sf::RenderWindow &window) {
@@ -17,6 +23,15 @@ void Sidebar::Draw(sf::RenderWindow &window) {
 }
 
 bool Sidebar::Contains(sf::Vector2<float> pos) {
+	if (_selectedType != _sidebar->_lastSelected) {
+		if (_selectedType != nullptr) {
+			_selectedType->SetClicked(false); //clear old selected
+		}
+
+		if (_sidebar->_lastSelected != nullptr) {
+			_selectedType = _sidebar->_lastSelected; //set new selected
+		}
+	}
 	return _sidebar->Contains(pos);
 }
 
@@ -51,7 +66,11 @@ void Sidebar::InitialLoad(sf::RenderWindow &window, GUIComponent *topBar) {
 		GUIComponent* option(new GUIComponent(Textures::Get("Button"), GUIComponent::Type::_box));
 		GUIComponent* checkBox(new GUIComponent(Textures::Get("Box_Small"), Textures::Get("Box_Small"), Textures::Get("Box_Small_a"), GUIComponent::Type::_toggle));
 	
-		option->SetText("Option");
+		if (i < _tileTypes.size()) {
+			option->SetText(_tileTypes[i]->GetType());
+		} else {
+			option->SetText("Option");
+		}
 
 		tileTypeButtonPos.y += 64;
 		option->SetScale((_header->GetWidth() - (_arrowRight->GetWidth() * 2)) / option->GetWidth(), tileTypeButtonScale.y);
@@ -67,6 +86,10 @@ void Sidebar::InitialLoad(sf::RenderWindow &window, GUIComponent *topBar) {
 		_sidebar->Add(key, checkBox);
 	}
 }	
+
+void Sidebar::LoadTiles() {
+	_tileTypes.push_back(new Tile("Grass"));
+}
 
 	
 

@@ -66,5 +66,8 @@ void Textures::InitialLoad() {
 	Add("Box_Small", _relativePath + "Assets/small_box.png");
 
 	Add("Box_Small_a", _relativePath + "Assets/small_box_clicked.png");
+
+	//Tile types -------
+	Add("Grass", _relativePath + "Assets/Grass.png");
 }
 

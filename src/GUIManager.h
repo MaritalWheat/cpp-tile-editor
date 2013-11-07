@@ -12,7 +12,7 @@ public:
 	void Remove(std::string name);
 	int GetObjectCount() const;
 	GUIComponent* Get(std::string name) const;
-
+	GUIComponent* _lastSelected; //handle to last manipulated component inside layout
 	void DrawAll(sf::RenderWindow& renderWindow);
 	bool Contains(sf::Vector2<float> pos);
 

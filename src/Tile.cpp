@@ -11,6 +11,12 @@ Tile::Tile(sf::Texture& texture)
 	_sprite = sf::Sprite(texture);
 }
 
+Tile::Tile(std::string type) 
+{
+	_type = type;
+	_sprite = sf::Sprite(Textures::Get(_type));
+}
+
 Tile::~Tile()
 {
 }
@@ -45,3 +51,6 @@ sf::Sprite Tile::GetSprite()
 	return _sprite;
 }
 
+std::string Tile::GetType() {
+	return _type;
+}

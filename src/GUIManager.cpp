@@ -3,6 +3,7 @@
 
 GUIManager::GUIManager()
 {
+	_lastSelected = nullptr;
 }
 
 GUIManager::~GUIManager()
@@ -65,6 +66,7 @@ bool GUIManager::Contains(sf::Vector2<float> pos)
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 					itr->second->SetClicked(!itr->second->IsClicked());
 					itr->second->SetTexture(itr->second->_clicked);
+					_lastSelected = itr->second;
 				} else {
 					itr->second->SetTexture(itr->second->_hover);
 				}
@@ -78,6 +80,7 @@ bool GUIManager::Contains(sf::Vector2<float> pos)
 				mouseInGUI = true;
 				if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 					itr->second->SetClicked(!itr->second->IsClicked());
+					_lastSelected = itr->second;
 				}
 			}
 			
@@ -94,5 +97,4 @@ bool GUIManager::Contains(sf::Vector2<float> pos)
 		itr++;
 	}
 	return mouseInGUI;
-	
 }
