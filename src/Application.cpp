@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <sstream>
 #include <SFML/Graphics.hpp>
@@ -65,44 +63,6 @@ int main()
 	_gui->Add("c", topBar);
 	_gui->Add("b", button1);
 
-	
-	/*int offsetScalar = 1;
-	
-
-
-	tileTypeButtonPos.y += 32;
-	grassOption -> SetScale(tileTypeButtonScale.x, tileTypeButtonScale.y);
-	grassOption -> SetPosition(tileTypeButtonPos.x, tileTypeButtonPos.y);
-	grassCheckBox -> SetScale(32 * 1 / grassCheckBox->GetWidth(), 32 * 1 / grassCheckBox->GetHeight());
-	grassCheckBox -> SetPosition(tileTypeButtonPos.x + 32 * 3, tileTypeButtonPos.y);	
-	grassOptionIcon -> SetPosition(tileOptions->GetX() + 32 * 5, tileOptions->GetY() + 32);	
-	offsetScalar++;
-	tileTypeButtonPos.y += 64;
-	waterOption -> SetScale(tileTypeButtonScale.x, tileTypeButtonScale.y);
-	waterOption ->  SetPosition(tileTypeButtonPos.x, tileTypeButtonPos.y);
-	offsetScalar++;
-	tileTypeButtonPos.y += 64;
-	dirtOption -> SetScale(tileTypeButtonScale.x, tileTypeButtonScale.y);
-	dirtOption ->  SetPosition(tileTypeButtonPos.x, tileTypeButtonPos.y);
-	offsetScalar++;
-	tileTypeButtonPos.y += 64;
-	sandOption -> SetScale(tileTypeButtonScale.x, tileTypeButtonScale.y);
-	sandOption ->  SetPosition(tileTypeButtonPos.x, tileTypeButtonPos.y);
-	offsetScalar++;
-	tileTypeButtonPos.y += 64;
-	deepWaterOption -> SetScale(tileTypeButtonScale.x, tileTypeButtonScale.y);
-	deepWaterOption ->  SetPosition(tileTypeButtonPos.x, tileTypeButtonPos.y);
-
-	_gui->Add("e", grassOption);
-	_gui->Add("f", waterOption);
-	_gui->Add("g", dirtOption);
-	_gui->Add("h", sandOption);
-	_gui->Add("i", deepWaterOption);
-	_gui->Add("j", optionsListRight);
-	_gui->Add("k", optionsListLeft);
-	_gui->Add("check", grassCheckBox);*/
-	//_gui->Add("g", grassOptionIcon);
-
 	const int _mapWidth = (int)map.getLocalBounds().width / 32;
 	const int _mapHeight = (int)map.getLocalBounds().height / 32;
 
@@ -138,11 +98,6 @@ int main()
 
 	sf::View standard = fixed; // The 'standard' view will be the one that gets always displayed
 	link.setPosition(window.getSize().x / 2.0f, (window.getSize().y / 2.0f));
-
-	sf::Text position;
-	position.setString("<0, 0> - <0, 0>"); // The startText will contain the position of the cursor
-	position.setPosition(10.f, 10.f);
-	position.setColor(sf::Color::White);
 
 	sf::Vector2i pos = sf::Mouse::getPosition(); // We will keep track of the old mouse position
 
@@ -218,7 +173,10 @@ int main()
 			int j = (int)(y / 32);
 
 			if (pos.x < window.getSize().x && pos.y < window.getSize().y) { //why the fuck does this work??
-				testTile->SetPosition(tileMap[i][j].GetX(), tileMap[i][j].GetY());
+				float x = tileMap[i][j].GetX();
+				float y = tileMap[i][j].GetY();
+				testTile->SetPosition(x, y);
+				button1->SetText(std::string("( ").append(std::to_string((int)(x / 32))).append(", ").append(std::to_string((int)(y / 32))).append(std::string(" )")));
 				
 				/*if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
 					++_size;
@@ -282,33 +240,6 @@ int main()
 		_gui->DrawAll(window);
 		sidebar->Draw(window);
 
-		
-		sf::Text startText("Y: " + std::to_string((int)(button1->GetY())), _font);
-		startText.setCharacterSize(button1->GetHeight() / 2);
-			startText.setStyle(sf::Text::Bold);
-			startText.setColor(sf::Color::Red);
-			startText.setPosition(button1->GetX() + button1->GetWidth() / 2 - startText.getLocalBounds().width / 2, 
-				button1->GetY() + button1->GetHeight() / 2 - startText.getCharacterSize() / 2);
-			// Draw it
-			window.draw(startText);
-
-		sf::Text tileOptionsLabel("Tile Type", _font);
-		tileOptionsLabel.setCharacterSize(button1->GetHeight() / 1.5);
-			//tileOptionsLabel.setStyle(sf::Text::Bold);
-			tileOptionsLabel.setColor(sf::Color::White);
-			tileOptionsLabel.setPosition(sidebar->_header->GetX() + sidebar->_header->GetWidth() / 2 - tileOptionsLabel.getLocalBounds().width / 2, 
-				button1->GetY() + button1->GetHeight() / 2 - tileOptionsLabel.getCharacterSize() / 2 - 3);
-			// Draw it
-			window.draw(tileOptionsLabel);
-
-		/*sf::Text grassLabel("Grass", _font);
-		grassLabel.setCharacterSize(grassOption->GetHeight() / 1.5);
-			//tileOptionsLabel.setStyle(sf::Text::Bold);
-			grassLabel.setColor(sf::Color::White);
-			grassLabel.setPosition(grassOption->GetX() + 15, 
-				grassOption->GetY() + grassOption->GetHeight() / 2 - grassLabel.getCharacterSize() / 2 - 3);
-			// Draw it
-			window.draw(grassLabel);*/
 		window.draw(link);
 
 

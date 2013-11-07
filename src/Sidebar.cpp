@@ -30,6 +30,7 @@ void Sidebar::InitialLoad(sf::RenderWindow &window, GUIComponent *topBar) {
 	_header = new GUIComponent(Textures::Get("Box_Dark"), GUIComponent::Type::_box);
 	_header->SetScale(32 * 6 / _header->GetWidth(), 32 / _header->GetHeight());
 	_header->SetPosition(window.getSize().x - _header->GetWidth(), 0);
+	_header->SetText("Tile Type");
 	_sidebar->Add("Header", _header);
 
 	_arrowRight = new GUIComponent(Textures::Get("R_Arrow"), Textures::Get("R_Arrow_h"), GUIComponent::Type::_button);
@@ -46,13 +47,25 @@ void Sidebar::InitialLoad(sf::RenderWindow &window, GUIComponent *topBar) {
 	_arrowLeft -> SetPosition(_header->GetX(), _header->GetY());
 	_sidebar->Add("Arrow_Left", _arrowLeft);
 
-	/*std::auto_ptr<GUIComponent> grassOption(new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle));
-	GUIComponent *waterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *dirtOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *sandOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *deepWaterOption = new GUIComponent(Textures::Get("Button"), Textures::Get("Button_h"), GUIComponent::Type::_toggle);
-	GUIComponent *grassOptionIcon = new GUIComponent(texGrassTile, Textures::Get("Button_h"), GUIComponent::Type::_box);
-	GUIComponent *grassCheckBox = new GUIComponent(Textures::Get("Box_Small"), Textures::Get("Box_Small"), Textures::Get("Box_Small_a"), GUIComponent::Type::_toggle);*/
+	for (int i = 0; i < 11; i++) {
+		GUIComponent* option(new GUIComponent(Textures::Get("Button"), GUIComponent::Type::_box));
+		GUIComponent* checkBox(new GUIComponent(Textures::Get("Box_Small"), Textures::Get("Box_Small"), Textures::Get("Box_Small_a"), GUIComponent::Type::_toggle));
+	
+		option->SetText("Option");
+
+		tileTypeButtonPos.y += 64;
+		option->SetScale((_header->GetWidth() - (_arrowRight->GetWidth() * 2)) / option->GetWidth(), tileTypeButtonScale.y);
+		option->SetPosition(tileTypeButtonPos.x, tileTypeButtonPos.y);
+		checkBox->SetScale(32 / checkBox->GetWidth(), 32 / checkBox->GetHeight());
+		checkBox->SetPosition(tileTypeButtonPos.x + 32 * 3, tileTypeButtonPos.y);	
+
+		std::string key = "Option ";
+		key.append(std::to_string(i));
+		_sidebar->Add(key, option);
+		key = "Box ";
+		key.append(std::to_string(i));
+		_sidebar->Add(key, checkBox);
+	}
 }	
 
 	

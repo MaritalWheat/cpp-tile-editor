@@ -47,6 +47,7 @@ void GUIManager::DrawAll(sf::RenderWindow& renderWindow)
 	{
 		std::string key = *itr;
 		renderWindow.draw(_components.find(key)->second->GetSprite());
+		renderWindow.draw(_components.find(key)->second->GetText());
 		itr++;
 	}
 }

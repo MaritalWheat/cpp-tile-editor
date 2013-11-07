@@ -68,11 +68,13 @@ sf::Vector2<float> GUIComponent::GetScale()
 void GUIComponent::SetPosition(float x, float y) 
 {
 	_sprite.setPosition(x, y);
+	UpdateTextPosition();
 }
 
 void GUIComponent::SetScale(float x, float y) 
 {
 	_sprite.setScale(x, y);
+	UpdateTextPosition();
 }
 
 void GUIComponent::SetColor(sf::Color color)
@@ -83,6 +85,11 @@ void GUIComponent::SetColor(sf::Color color)
 sf::Sprite GUIComponent::GetSprite()
 {
 	return _sprite;
+}
+
+sf::Text GUIComponent::GetText()
+{
+	return _text;
 }
 
 GUIComponent::Type GUIComponent::GetType()
@@ -103,6 +110,23 @@ void GUIComponent::SetClicked(bool status)
 void GUIComponent::SetTexture(sf::Texture &texture)
 {
 	_sprite.setTexture(texture);
+}
+
+void GUIComponent::SetText(std::string str)
+{
+	_font.loadFromFile("C:/Users/Emanuel/Documents/Visual Studio 2012/Projects/ConsoleApplication1/Assets/BebasNeue.otf");
+	_text.setFont(_font);
+	_text.setString(str);
+	//_text.setStyle(sf::Text::Bold);
+	_text.setColor(sf::Color::White);
+	UpdateTextPosition();
+}
+
+void GUIComponent::UpdateTextPosition()
+{
+	_text.setCharacterSize(this->GetHeight() / 1.5);
+	_text.setPosition((this->GetX() + this->GetWidth() / 2 - _text.getLocalBounds().width / 2), this->GetY() + (this->GetHeight() / 2) -
+		(_text.getLocalBounds().height / 2) - 5);
 }
 
 
